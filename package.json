@@ -9,5 +9,8 @@
   "workspaces": [
     "packages/*"
   ],
-  "dependencies": {}
+  "dependencies": {},
+  "scripts": {
+    "test": "lerna exec test"
+  }
 }

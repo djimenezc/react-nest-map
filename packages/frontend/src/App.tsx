@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import logo from './logo.svg';
 import styled from 'styled-components';
 import './App.css';
 import Card from './Card';
-
+import {http} from "./util";
+import Devices from './Devices';
 
 const Wrapper = styled.div`
   background-color: #FFF480;
@@ -31,10 +32,9 @@ const Header = styled.header`
 `;
 
 const Menu = styled.ul`
-margin: 0 auto 2.5rem auto;
 list-style-type: none;
 line-height: 1.6;
-margin-bottom: 1rem;
+margin: 0 auto 1rem;
 list-style-position: outside;
 color: #FF5757;
 > li {
@@ -52,26 +52,46 @@ const Logo = styled.img`
   }
 `;
 
+const url = 'http://localhost:3000/api/devices/list';
+
 const App: React.FC = () => {
-  return (
-    <Wrapper>
-      <Container>
-        <Header>
-          <Logo src={logo} alt="logo" />
-          <Menu>
-            <li>Home</li>
-            <li>About</li>
-            <li>Contact</li>
-          </Menu>
-        </Header>
-        <Card>
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        </Card>
-      </Container>
-    </Wrapper>
-  );
-}
+
+        const [devices, setDevices] = useState([]);
+
+        useEffect(() => {
+            // Create an scoped async function in the hook
+            async function fetchDevices() {
+                console.log('retrieving points');
+                const devicesResp = await http(url);
+                console.log('devices received', devicesResp);
+
+                setDevices(devicesResp);
+            }
+
+            fetchDevices();
+        }, []);
+
+        return (
+            <Wrapper>
+                <Container>
+                    <Header>
+                        <Logo src={logo} alt="logo"/>
+                        <Menu>
+                            <li>Home</li>
+                            <li>About</li>
+                            <li>Contact</li>
+                        </Menu>
+                    </Header>
+                    <Card>
+                        <p>
+                            Edit <code>src/App.tsx</code> and save to reload.
+                        </p>
+                    </Card>
+                    <Devices devices={devices}/>
+                </Container>
+            </Wrapper>
+        );
+    }
+;
 
 export default App;
