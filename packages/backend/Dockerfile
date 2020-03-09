@@ -5,8 +5,8 @@ ENV NODE_ENV build
 WORKDIR /home/node
 COPY . /home/node
 
-RUN yarn install --frozen-lockfile --silent \
-    && yarn workspace backend build
+RUN npm ci \
+    && lerna exec -- npm run build --scope=backend
 
 # ---
 
@@ -18,11 +18,11 @@ USER node
 WORKDIR /home/node
 
 COPY --chown=node:node --from=builder /home/node/packages/backend/package.json /home/node/
-COPY --chown=node:node --from=builder /home/node/yarn.lock /home/node/
+COPY --chown=node:node --from=builder /home/node/package-lock.json /home/node/
 COPY --chown=node:node --from=builder /home/node/packages/backend/dist/ /home/node/dist/
 
-RUN yarn install --frozen-lockfile --silent
+RUN npm ci
 
 EXPOSE 3333
 
-CMD ["yarn", "start:prod"]
+CMD ["npm", "start:prod"]
