@@ -1,0 +1,26 @@
+dist: xenial
+services:
+  - xvfb
+language: node_js
+node_js:
+  - 10
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y xvfb libappindicator1 fonts-liberation
+  - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  - sudo dpkg -i google-chrome*.deb
+  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen scn 1600x1200x16"
+  - cd $TRAVIS_BUILD_DIR
+cache: npm
+
+install:
+  - npm ci
+  - lerna bootstrap
+#script:
+#  - npm run lint
+#  - npm run test:client
+#  - npm run test:server
+#  - npm run start:backend &
+#  - sleep 3
+#  - npm run e2e
+
