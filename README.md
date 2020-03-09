@@ -35,26 +35,27 @@
 
 ```sh
 npm ci
+lerna clean --yes
 lerna bootstrap
 ```
 
 ## Start frontend
 
 ```sh
-lerna exec -- npm run start start --scope=frontend
+lerna exec --scope frontend -- npm run start
 ```
 
 ## Start backend
 
 ```sh
-lerna exec -- npm run start start --scope=backend
+lerna exec --scope backend -- npm run start
 ```
 
 ## Author
 
 👤 **David Jimenez Calvo**
 
-* Github: [@Jensderond](https://github.com/djimenezc)
+* Github: [@djimenezc](https://github.com/djimenezc)
 
 ## Show your support
 
