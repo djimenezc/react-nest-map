@@ -74,18 +74,18 @@ const App: React.FC = () => {
                                 <Link to="/about">About</Link>
                             </Menu>
                         </Header>
-                        <Switch>
-                            <Route path="/about">
-                                <About/>
-                            </Route>
-                            <Route path="/devices">
-                                <Devices devices={devices}/>
-                            </Route>
-                            <Route path="/">
-                                <Map devices={devices}/>
-                            </Route>
-                        </Switch>
                     </Container>
+                    <Switch>
+                        <Route path="/about">
+                            <About/>
+                        </Route>
+                        <Route path="/devices">
+                            <Devices devices={devices}/>
+                        </Route>
+                        <Route path="/">
+                            <Map devices={devices}/>
+                        </Route>
+                    </Switch>
                 </Wrapper>
             </Router>
         );

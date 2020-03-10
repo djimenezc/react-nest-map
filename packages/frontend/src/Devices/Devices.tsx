@@ -7,29 +7,40 @@ import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 const columnDefs = [
     {headerName: "Id", field: "ID"},
     {headerName: "Name", field: "Name"},
-    {headerName: "Active", field: "Active"},
+    {headerName: "Active", field: "Active", width: 80},
     // { headerName: "Price", field: "Active" },
     {headerName: "Share", field: "Share"},
-    {headerName: "Date", field: "Date"},
-    {headerName: "Temperature", field: "Temperature"},
-    {headerName: "Battery", field: "Battery"},
+    {headerName: "Date", field: "Date", minWidth: 180},
+    {headerName: "Temperature", field: "Temperature", width: 110},
+    {headerName: "Battery", field: "Battery", width: 100},
 ];
 
-const Devices: React.FC<DevicesProps> = ({devices}) => {
-    // return (<ul>
-    //     {devices.map(device => (
-    //         <li key={device.ID}>{device.Name}</li>
-    //     ))
-    //     }
-    // </ul>)
+function adjustColumnWidth(params: any) {
+    params.api.sizeColumnsToFit();
 
-    return <div className="ag-theme-balham"
-                style={{height: '200px', width: '600px'}}>
+// If you want to resize all columns
+    params.columnApi.autoSizeColumns();
+}
+
+const Devices: React.FC<DevicesProps> = ({devices}) => {
+
+    return <div id="myGrid"
+                className="ag-theme-balham"
+                style={{
+                    height: '100%',
+                    width: 'calc(100% - 4rem)',
+                    margin: '1rem 2rem'
+                }}
+    >
         <AgGridReact
             columnDefs={columnDefs}
-            rowData={devices}>
+            rowData={devices}
+            onFirstDataRendered={adjustColumnWidth}
+            onGridSizeChanged={adjustColumnWidth}
+        >
         </AgGridReact>
     </div>
 };
+
 
 export default Devices;
