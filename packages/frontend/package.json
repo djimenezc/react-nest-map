@@ -29,9 +29,10 @@
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^8.0.3",
     "@types/jest": "^24.0.25",
-    "react-scripts": "3.4.0",
+    "@types/ol": "^6.1.0",
     "pinkie": "2.0.4",
-    "pinkie-promise": "2.0.1"
+    "pinkie-promise": "2.0.1",
+    "react-scripts": "3.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
