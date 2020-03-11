@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import './App.css';
 import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
+import {Redirect} from 'react-router';
+
 import {http} from "./util";
 import Devices from './Devices';
 import About from './About';
@@ -69,7 +71,7 @@ const App: React.FC = () => {
                     <Container>
                         <Header>
                             <Menu>
-                                <Link to="/">Home</Link>
+                                <Link to="/map">Home</Link>
                                 <Link to="/devices">Devices</Link>
                                 <Link to="/about">About</Link>
                             </Menu>
@@ -82,8 +84,11 @@ const App: React.FC = () => {
                         <Route path="/devices">
                             <Devices devices={devices}/>
                         </Route>
-                        <Route path="/">
+                        <Route path="/map">
                             <Map devices={devices}/>
+                        </Route>
+                        <Route path="/">
+                            <Redirect push to={{pathname: '/map'}} />
                         </Route>
                     </Switch>
                 </Wrapper>
