@@ -9,15 +9,17 @@ import {
     defaults as defaultInteractions,
     DragRotateAndZoom
 } from 'ol/interaction';
-import {defaults as defaultControls, OverviewMap} from 'ol/control';
+import {defaults as defaultControls} from 'ol/control';
 import VectorSource from 'ol/source/Vector';
-import {Icon, Style, Stroke} from 'ol/style';
+import {Icon, Style} from 'ol/style';
 import Feature from 'ol/Feature';
 import {Vector as VectorLayer} from 'ol/layer';
 import Point from 'ol/geom/Point';
 import IconAnchorUnits from "ol/style/IconAnchorUnits";
 
 export function buildMap() {
+    console.log('building Map');
+
     const osm = new TileLayer({
         source: new OlSourceOSM()
     });
@@ -38,7 +40,11 @@ export function buildMap() {
         anchor: [0.5, 46],
         anchorXUnits: IconAnchorUnits.FRACTION,
         anchorYUnits: IconAnchorUnits.PIXELS,
-        src: 'data/icons8-shipping-container-30.png'
+        src: 'markers/icons8-shipping-container-30.png'
+        // src: './data/icon.png'
+        // src: IconImg
+        // img: IconImg
+
     };
     const iconStyle = new Style({
         image: new Icon(iconOpts)
@@ -50,42 +56,42 @@ export function buildMap() {
         features: [iconFeature]
     });
 
-// const vectorLayer = new VectorLayer({
-//     source: vectorSource
-// });
-
     const vectorLayer = new VectorLayer({
-        source: vectorSource,
-        style: new Style({
-            stroke: new Stroke({
-                color: 'red',
-                width: 4
-            })
-        })
+        source: vectorSource
     });
 
-// @ts-ignore
-    const overviewLayer = new TileLayer({
-        source: osm
-    });
-// @ts-ignore
-    const overviewMapControl = new OverviewMap({
-        layers: [
-            overviewLayer
-        ]
-    });
+    // const vectorLayer = new VectorLayer({
+    //     source: vectorSource,
+    //     style: new Style({
+    //         stroke: new Stroke({
+    //             color: 'red',
+    //             width: 4
+    //         })
+    //     })
+    // });
+
+// // @ts-ignore
+//     const overviewLayer = new TileLayer({
+//         source: osm
+//     });
+// // @ts-ignore
+//     const overviewMapControl = new OverviewMap({
+//         layers: [
+//             overviewLayer
+//         ]
+//     });
 
     return new OlMap({
         interactions: defaultInteractions().extend([
             new DragRotateAndZoom()
         ]),
         controls: defaultControls().extend([
-            overviewMapControl
+            // overviewMapControl
         ]),
         layers: [
             googleMaps,
             vectorLayer,
-            osm
+            // osm
         ],
         view: new OlView({
             // center: center,
