@@ -1,28 +1,40 @@
 import React, {useEffect, useRef, useState} from "react";
 import {DevicesProps} from '../react-app-env'
-import {buildMap} from "./buildMap";
+import OlMap from "./OlMap";
+import Toolbar from "../Toolbar/Toolbar";
 
-const map = buildMap();
+const olMap = new OlMap();
+const defaultZoom = 3;
+const defaultCenter = [0, 0];
 
 const Map: React.FC<DevicesProps> = ({devices}) => {
     const mapRef = useRef(null);
-    const [center, setCenter] = useState([0, 0]);
-    const [zoom, setZoom] = useState(3);
+    const [center, setCenter] = useState(defaultCenter);
+    const [zoom, setZoom] = useState(defaultZoom);
+
+    const onClickHome = () => {
+        // e.preventDefault();
+        console.log('onClickHome');
+        setCenter(defaultCenter);
+        setZoom(defaultZoom);
+    };
 
     useEffect(() => {
-        map.setTarget(mapRef.current || '');
-        map.getView().setCenter(center);
-        map.getView().setZoom(zoom);
+        olMap.map.setTarget(mapRef.current || '');
+        olMap.map.getView().setCenter(center);
+        olMap.map.getView().setZoom(zoom);
+        olMap.addPoints(devices);
     });
 
     return (
         <div style={{
-            padding: "0 2rem"
+            // padding: "0 2rem"
         }}>
-            holaa
+            <Toolbar onClickHome={onClickHome}/>
             <div id='map' ref={mapRef}
                  style={{
-                     width: "calc(100% - 4rem)",
+                     // width: "calc(100% - 4rem)",
+                     width: '100%',
                      height: "90%",
                      position: 'fixed'
                  }}>
