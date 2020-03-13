@@ -1,7 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import {DevicesProps} from '../react-app-env'
 import OlMap from "./OlMap";
-import Toolbar from "../Toolbar/Toolbar";
 
 const olMap = new OlMap();
 const defaultZoom = 3;
@@ -27,18 +26,13 @@ const Map: React.FC<DevicesProps> = ({devices}) => {
     });
 
     return (
-        <div style={{
-            // padding: "0 2rem"
-        }}>
-            <Toolbar onClickHome={onClickHome}/>
-            <div id='map' ref={mapRef}
-                 style={{
-                     // width: "calc(100% - 4rem)",
-                     width: '100%',
-                     height: "90%",
-                     position: 'fixed'
-                 }}>
-            </div>
+        <div id='map' ref={mapRef}
+             style={{
+                 // width: "calc(100% - 4rem)",
+                 width: '100%',
+                 height: "100%",
+                 position: 'fixed'
+             }}>
         </div>
     )
 };

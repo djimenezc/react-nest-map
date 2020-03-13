@@ -1,24 +1,39 @@
 import React from "react";
 import './Toolbar.css';
+import {Link} from "react-router-dom";
+
+const {withRouter} = require('react-router');
 
 const PropTypes = require('prop-types');
+
 interface Props {
-    onClickHome(): void
+    location: Location
 }
 
-const Toolbar: React.FC<Props> = ({onClickHome} : Props) => {
+function linkActive(pathname: string, locationPathname: string) {
+    return pathname === locationPathname ? 'active' : '';
+}
+
+const Toolbar: React.FC<Props> = (props) => {
 
     return (<div className="icon-bar">
-        <a className="active" href="#"><i className="fa fa-home"/></a>
-        <a onClick={onClickHome}><i className="fa fa-search"/></a>
-        <a href="#"><i className="fa fa-envelope"/></a>
-        <a href="#"><i className="fa fa-globe"/></a>
-        <a href="#"><i className="fa fa-trash"/></a>
+        <Link className={linkActive('/map', props.location.pathname)}
+              to="/map"><i className="fa fa-home"/></Link>
+        <Link className={linkActive('/devices', props.location.pathname)}
+              to="/devices"><i className="fa fa-search"/></Link>
+        <Link className={linkActive('/about', props.location.pathname)}
+              to="/about"><i className="fa fa-info-circle"/></Link>
     </div>)
 };
 
+// <Link to="/map">Home</Link> * /}
+{/*    <Link to="/devices">Devices</Link>*/
+}
+{/*    <Link to="/about">About</Link>*/
+}
+
 Toolbar.propTypes = {
-    onClickHome: PropTypes.func
+    // onClickHome: PropTypes.func
 };
 
-export default Toolbar;
+export default withRouter(Toolbar);

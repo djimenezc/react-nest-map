@@ -28,15 +28,15 @@ const Devices: React.FC<DevicesProps> = ({devices}) => {
                 className="ag-theme-balham"
                 style={{
                     height: '100%',
-                    width: 'calc(100% - 4rem)',
-                    margin: '1rem 2rem'
+                    width: '100%',
+                    // margin: '1rem 2rem'
                 }}
     >
         <AgGridReact
             columnDefs={columnDefs}
             rowData={devices}
-            onFirstDataRendered={adjustColumnWidth}
-            onGridSizeChanged={adjustColumnWidth}
+            // onFirstDataRendered={adjustColumnWidth}
+            // onGridSizeChanged={adjustColumnWidth}
         >
         </AgGridReact>
     </div>

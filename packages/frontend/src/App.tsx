@@ -8,6 +8,7 @@ import {http} from "./util";
 import Devices from './Devices';
 import About from './About';
 import Map from './Map';
+import Toolbar from "./Toolbar";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -70,11 +71,8 @@ const App: React.FC = () => {
                 <Wrapper>
                     <Container>
                         <Header>
-                            <Menu>
-                                <Link to="/map">Home</Link>
-                                <Link to="/devices">Devices</Link>
-                                <Link to="/about">About</Link>
-                            </Menu>
+                            <Toolbar />
+
                         </Header>
                     </Container>
                     <Switch>
