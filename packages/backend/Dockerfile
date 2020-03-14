@@ -3,10 +3,18 @@ FROM node:12.14.0@sha256:cd2da90c3324458e1f022f2b7dcf5aa1bbe359421b97d6d3a630d47
 ENV NODE_ENV build
 
 WORKDIR /home/node
+
+COPY package.json /home/node/
+COPY package-lock.json /home/node/
+COPY lerna.json /home/node/
+
+COPY packages/backend/package.json /home/node/packages/backend/
+
 COPY . /home/node
 
-RUN npm ci \
-    && lerna exec -- npm run build --scope=backend
+RUN npm ci
+
+RUN cd packages/backend && npm run build
 
 # ---
 
@@ -25,4 +33,4 @@ RUN npm ci
 
 EXPOSE 3333
 
-CMD ["npm", "start:prod"]
+CMD ["npm", "run", "start:prod"]

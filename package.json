@@ -6,11 +6,8 @@
     "pinkie": "2.0.4",
     "pinkie-promise": "2.0.1"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "dependencies": {},
   "scripts": {
-    "test": "lerna exec test"
+    "test": "lerna exec -- npm run test -- --watchAll=false"
   }
 }
