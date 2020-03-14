@@ -17,11 +17,9 @@ const Map: React.FC<DevicesProps> = ({devices}) => {
         olMap = new OlMap();
 
         return () => {
-            debugger
             console.log('cleaning map');
             olMap.destroyMap();
             setTimeout(function(){
-                debugger
                 const $mapContainer = document.getElementById("mapContainer");
                 if($mapContainer){
                     document.getElementById("popup")?.removeChild($mapContainer);
