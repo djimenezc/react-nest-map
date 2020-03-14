@@ -15,12 +15,12 @@ const columnDefs = [
     {headerName: "Battery", field: "Battery", width: 100},
 ];
 
-function adjustColumnWidth(params: any) {
-    params.api.sizeColumnsToFit();
-
-// If you want to resize all columns
-    params.columnApi.autoSizeColumns();
-}
+// function adjustColumnWidth(params: any) {
+//     params.api.sizeColumnsToFit();
+//
+// // If you want to resize all columns
+//     params.columnApi.autoSizeColumns();
+// }
 
 const Devices: React.FC<DevicesProps> = ({devices}) => {
 

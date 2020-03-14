@@ -4,8 +4,6 @@ import {Link} from "react-router-dom";
 
 const {withRouter} = require('react-router');
 
-const PropTypes = require('prop-types');
-
 interface Props {
     location: Location
 }

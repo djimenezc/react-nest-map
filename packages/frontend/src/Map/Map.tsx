@@ -10,8 +10,8 @@ let olMap: OlMap;
 const Map: React.FC<DevicesProps> = ({devices}) => {
     const mapRef = useRef(null);
     const popupRef = useRef(null);
-    const [center, setCenter] = useState(defaultCenter);
-    const [zoom, setZoom] = useState(defaultZoom);
+    const [center] = useState(defaultCenter);
+    const [zoom] = useState(defaultZoom);
 
     useEffect(() => {
         olMap = new OlMap();

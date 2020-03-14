@@ -229,7 +229,7 @@ export default class OlMapManager {
 
     private styleFunction(feature: any, resolution: number) {
 
-        if (resolution != this.currentResolution) {
+        if (resolution !== this.currentResolution) {
             this.calculateClusterInfo(resolution);
             this.currentResolution = resolution;
         }
