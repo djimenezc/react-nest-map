@@ -26,7 +26,8 @@ USER node
 WORKDIR /home/node
 
 COPY --chown=node:node --from=builder /home/node/packages/backend/package.json /home/node/
-COPY --chown=node:node --from=builder /home/node/package-lock.json /home/node/
+COPY --chown=node:node --from=builder /home/node/packages/backend/package-lock.json /home/node/
+#COPY --chown=node:node --from=builder /home/node/packages/backend/node_modules /home/node/
 COPY --chown=node:node --from=builder /home/node/packages/backend/dist/ /home/node/dist/
 
 RUN npm ci
