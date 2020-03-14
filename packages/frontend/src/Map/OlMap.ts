@@ -104,13 +104,11 @@ export default class OlMapManager {
         console.log('Adding points', devices.length);
 
         const iconFeatures = devices.map((device: Device) => {
-            // iconFeature.setStyle(iconStyle);
             return OlMapManager.buildIconFeature(device);
         });
 
         const vectorSource = new VectorSource({
             features: iconFeatures,
-            // features: [OlMapManager.buildIconFeature()]
         });
 
         const clusterSource = new Cluster({
@@ -153,7 +151,6 @@ export default class OlMapManager {
         this.popup = null;
         // @ts-ignore
         this.map.setTarget(null);
-
     }
 
     addMarkersPopup(popupRef: any) {
