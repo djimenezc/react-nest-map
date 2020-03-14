@@ -1,8 +1,8 @@
 import OlMap from 'ol/Map';
 import OlView from 'ol/View';
 import OlLayerTile from 'ol/layer/Tile';
-import TileLayer from 'ol/layer/Tile';
-import OlSourceOSM from 'ol/source/OSM';
+// import TileLayer from 'ol/layer/Tile';
+// import OlSourceOSM from 'ol/source/OSM';
 import OlSourceXYZ from 'ol/source/XYZ';
 import 'ol/ol.css';
 import {
@@ -12,13 +12,16 @@ import {
 import {defaults as defaultControls} from 'ol/control';
 import VectorSource from 'ol/source/Vector';
 import Cluster from 'ol/source/Cluster';
-import Feature from 'ol/Feature';
+import Feature, {FeatureLike} from 'ol/Feature';
 import {Vector as VectorLayer} from 'ol/layer';
 import Point from 'ol/geom/Point';
 import IconAnchorUnits from "ol/style/IconAnchorUnits";
 import {Device} from "../react-app-env";
 import {Circle as CircleStyle, Fill, Icon, Stroke, Style, Text} from 'ol/style';
 import {createEmpty, extend, getHeight, getWidth} from 'ol/extent';
+import Overlay from 'ol/Overlay';
+import OverlayPositioning from "ol/OverlayPositioning";
+import {Pixel} from "ol/pixel";
 
 export default class OlMapManager {
     public map: OlMap;
@@ -28,7 +31,7 @@ export default class OlMapManager {
         anchorYUnits: IconAnchorUnits.PIXELS,
         src: 'markers/icons8-shipping-container-30.png'
     };
-    private styleCache = {};
+    // private styleCache = {};
     private currentResolution: number = 0;
     private maxFeatureCount: number = 0;
     private clusters?: VectorLayer;
@@ -40,6 +43,7 @@ export default class OlMapManager {
         color: 'rgba(0, 0, 0, 0.6)',
         width: 3
     });
+    private popup?: Overlay;
 
     constructor() {
         this.map = this.buildMap();
@@ -48,9 +52,9 @@ export default class OlMapManager {
     buildMap() {
         console.log('building Map');
 
-        const osm = new TileLayer({
-            source: new OlSourceOSM()
-        });
+        // const osm = new TileLayer({
+        //     source: new OlSourceOSM()
+        // });
         const googleMaps = new OlLayerTile({
             source: new OlSourceXYZ({
                 url: 'http://mt0.google.com/vt/lyrs=p&hl=en&x={x}&y={y}&z={z}'
@@ -88,9 +92,6 @@ export default class OlMapManager {
             geometry: point,
             id: device?.ID,
             name: device?.Name,
-            // geometry: new Point([0, 0]),
-            population: 4000,
-            rainfall: 500,
             share: device?.Share,
             temperature: device?.Temperature,
             active: device?.Active,
@@ -99,7 +100,7 @@ export default class OlMapManager {
         });
     }
 
-    addPoints(devices: Device[]) {
+    addPoints(devices: Device[], popupRef: any) {
         console.log('Adding points', devices.length);
 
         const iconFeatures = devices.map((device: Device) => {
@@ -122,52 +123,88 @@ export default class OlMapManager {
             style: this.styleFunction.bind(this)
         });
 
-        // const clusters = new VectorLayer({
-        //     source: clusterSource,
-        //     style: styleFunction2
-        // });
-
-        // const vectorLayer = new VectorLayer({
-        //     source: vectorSource
-        // });
-
         // this.map.addLayer(vectorLayer);
         this.map.addLayer(this.clusters);
+        this.addMarkersPopup(popupRef);
     }
 
-    styleFunction2(feature: any) {
-
-        const size = feature.get('features').length;
-        // @ts-ignore
-        let style = this.styleCache[size];
-        if (!style) {
-            if (size > 1) {
-                style = new Style({
-                    image: new CircleStyle({
-                        radius: 10,
-                        stroke: new Stroke({
-                            color: '#fff'
-                        }),
-                        fill: new Fill({
-                            color: '#3399CC'
-                        })
-                    }),
-                    text: new Text({
-                        text: size.toString(),
-                        fill: new Fill({
-                            color: '#fff'
-                        })
-                    })
-                });
-            } else {
-                style = new Style({
-                    image: new Icon(this.iconOpts)
-                });
-            }
-            // @ts-ignore
-            this.styleCache[size] = style;
+    private static isCluster(feature: FeatureLike) {
+        if (!feature || !feature.get('features')) {
+            return false;
         }
-        return style;
+        return feature.get('features').length > 1;
+    }
+
+    private static isSingleFeature(feature: FeatureLike) {
+        return !OlMapManager.isCluster(feature);
+    }
+
+    private getFeatureFromPixel(pixel: Pixel) {
+        return this.map.forEachFeatureAtPixel(pixel,
+            function (feature) {
+                return feature;
+            });
+    }
+
+    destroyMap() {
+        // @ts-ignore
+        this.map.removeOverlay(this.popup);
+        // @ts-ignore
+        this.popup = null;
+        // @ts-ignore
+        this.map.setTarget(null);
+
+    }
+
+    addMarkersPopup(popupRef: any) {
+
+        this.popup = new Overlay({
+            element: popupRef,
+            positioning: OverlayPositioning.BOTTOM_CENTER,
+            stopEvent: false,
+            offset: [0, -20]
+        });
+
+        this.map.addOverlay(this.popup);
+
+        // display popup on click
+        this.map.on('click', (evt) => {
+
+            const feature = this.getFeatureFromPixel(evt.pixel);
+
+            if (feature && OlMapManager.isSingleFeature(feature)) {
+                if (this.popup) {
+                    const element = this.popup?.getElement();
+                    const clickedFeature =
+                        feature.getProperties().features[0];
+                    const {
+                        active, battery, date,
+                        id, name, temperature
+                    } = clickedFeature.getProperties();
+                    element.innerHTML = `
+                        <div>Id: ${id}</div>
+                        <div>Name: ${name}</div>
+                        <div>Date: ${date}</div>
+                        <div>Temperature: ${temperature}</div>
+                        <div>Active: ${active}</div>
+                        <div>Battery: ${battery}</div>
+                    `;
+                    this.popup?.setPosition(evt.coordinate);
+                    this.map.addOverlay(this.popup);
+                }
+            } else {
+                // @ts-ignore
+                this.map.removeOverlay(this.popup);
+            }
+        });
+
+        // change mouse cursor when over marker
+        this.map.on('pointermove', (evt) => {
+            const feature = this.getFeatureFromPixel(evt.pixel);
+            const hit = feature && OlMapManager.isSingleFeature(feature);
+            // @ts-ignore
+            this.map.getTarget().style.cursor = hit ? 'pointer' : '';
+        });
     }
 
     calculateClusterInfo(resolution: number) {

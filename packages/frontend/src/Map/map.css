@@ -1,0 +1,11 @@
+.blue-circle {
+    width: 150px;
+    height: 160px;
+    border: 1px solid #088;
+    border-radius: 5px;
+    background-color: #3266ff;
+    opacity: 0.9;
+    z-index: 9999; /* Watch out for this!!! */
+    color: black;
+    padding: 4px;
+}

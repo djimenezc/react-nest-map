@@ -26,14 +26,7 @@ const Toolbar: React.FC<Props> = (props) => {
     </div>)
 };
 
-// <Link to="/map">Home</Link> * /}
-{/*    <Link to="/devices">Devices</Link>*/
-}
-{/*    <Link to="/about">About</Link>*/
-}
-
 Toolbar.propTypes = {
-    // onClickHome: PropTypes.func
 };
 
 export default withRouter(Toolbar);
