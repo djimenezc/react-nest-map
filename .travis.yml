@@ -1,7 +1,10 @@
 dist: xenial
 services:
   - xvfb
+  - docker
 language: node_js
+env:
+  DOCKER_COMPOSE_VERSION: 1.23.2
 node_js:
   - 10
 before_install:
@@ -16,6 +19,9 @@ cache: npm
 install:
   - npm ci
   - lerna bootstrap
+test:
+  - npm run test
+  - docker-compose build
 #script:
 #  - npm run lint
 #  - npm run test:client
