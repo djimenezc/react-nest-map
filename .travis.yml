@@ -4,7 +4,7 @@ services:
   - docker
 language: node_js
 env:
-  DOCKER_COMPOSE_VERSION: 1.23.2
+  DOCKER_COMPOSE_VERSION: 1.25.4
 node_js:
   - 10
 before_install:
@@ -19,7 +19,7 @@ cache: npm
 install:
   - npm ci
   - lerna bootstrap
-test:
+script:
   - npm run test
   - docker-compose build
 #script:
