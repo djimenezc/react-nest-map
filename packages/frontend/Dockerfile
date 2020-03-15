@@ -6,17 +6,17 @@ ENV NODE_ENV=production
 
 # Dependencies
 
-COPY package.json /home/app/
-COPY package-lock.json /home/app/
-COPY lerna.json /home/app/
+#COPY package.json /home/app/
+#COPY package-lock.json /home/app/
+#COPY lerna.json /home/app/
 
-COPY packages/frontend/package.json /home/app/packages/frontend/
-COPY packages/frontend/package-lock.json /home/app/packages/frontend/
+COPY packages/frontend/ /home/app/packages/frontend/
+#COPY packages/frontend/package-lock.json /home/app/packages/frontend/
 
 # Build
-COPY . /home/app/
+#COPY . /home/app/
 
-RUN npm ci
+#RUN npm ci
 
 RUN cd packages/frontend && npm ci
 RUN cd packages/frontend && npm run build

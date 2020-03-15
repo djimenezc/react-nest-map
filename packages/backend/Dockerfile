@@ -4,16 +4,15 @@ ENV NODE_ENV build
 
 WORKDIR /home/node
 
-COPY package.json /home/node/
-COPY package-lock.json /home/node/
-COPY lerna.json /home/node/
+#COPY package.json /home/node/
+#COPY package-lock.json /home/node/
+#COPY lerna.json /home/node/
 
-COPY packages/backend/package.json /home/node/packages/backend/
+COPY packages/backend/ /home/node/packages/backend/
 
-COPY . /home/node
+#COPY . /home/node
 
-RUN npm ci
-
+RUN cd packages/backend && npm ci
 RUN cd packages/backend && npm run build
 
 # ---
