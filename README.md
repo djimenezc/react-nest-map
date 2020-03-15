@@ -67,7 +67,7 @@ App runs in port 8080
 👤 **David Jimenez Calvo**
 
 * Github: [@djimenezc](https://github.com/djimenezc)
-* Travis CI: (https://travis-ci.org/github/djimenezc/react-nest-map/builds) 
+* [Travis CI](https://travis-ci.org/github/djimenezc/react-nest-map/builds) 
 
 ## Show your support
 
