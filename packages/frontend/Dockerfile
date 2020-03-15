@@ -11,12 +11,14 @@ COPY package-lock.json /home/app/
 COPY lerna.json /home/app/
 
 COPY packages/frontend/package.json /home/app/packages/frontend/
+COPY packages/frontend/package-lock.json /home/app/packages/frontend/
 
 # Build
 COPY . /home/app/
 
 RUN npm ci
 
+RUN cd packages/frontend && npm ci
 RUN cd packages/frontend && npm run build
 
 FROM nginx:1.17.6-alpine@sha256:2993f9c9a619cde706ae0e34a1a91eb9cf5225182b6b76eb637392d2ce816538

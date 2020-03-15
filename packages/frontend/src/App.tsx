@@ -24,7 +24,7 @@ const Header = styled.header`
   color: #7c795d;
 `;
 
-const url = 'http://localhost:3000/api/devices/list';
+const url = '/api/devices/list';
 
 const App: React.FC = () => {
 
