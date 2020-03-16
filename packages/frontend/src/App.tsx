@@ -49,7 +49,6 @@ const App: React.FC = () => {
                     <Container>
                         <Header>
                             <Toolbar />
-
                         </Header>
                     </Container>
                     <Switch>

@@ -86,7 +86,8 @@ export default class OlMapManager {
         const [lat, lon] = device?.Geometry.Coordinates;
 
         // const point = fromLonLat([lon, lat]);
-        const point = new Point([lon, lat]).transform('EPSG:4326', 'EPSG:3857');
+        const point = new Point([lon, lat])
+          .transform('EPSG:4326', 'EPSG:3857');
 
         return new Feature({
             geometry: point,
